@@ -3,7 +3,7 @@ var center;
 var l;
 
 function setup() {
-  createCanvas(2*1960, 2*1080);
+  createCanvas(1960, 1080);
   frameRate(1);
   colorMode(HSB);
   l = 0
