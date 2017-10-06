@@ -1,37 +1,58 @@
 // for red, green, and blue color values
-var c;
+var center;
+var l;
 
 function setup() {
-  createCanvas(1960, 1080);
-  frameRate(2)
+  createCanvas(2*1960, 2*1080);
+  frameRate(1);
   colorMode(HSB);
+  l = 0
+  //translate(width/2, height/2)
+  center = [0, 0, 0]
+  noStroke();
 }
 
 function draw() {
   background(0);
+  translate(width/2, height/2);
+  //translate(width/2 - center[0], height/2 - center[1]);
   noFill();
-  //console.log(frameCount%60 + 1);
-  stroke(255);
-  c = floor(random(361))
-  makepair(width/2, 0, width/2, c);
-  noLoop();
+  //stroke(255);
+  //strokeWeight(2)
+  onecirc(0, 0, width/2, -1, 0);
+  //l += 0.01
+  //noLoop();
   //saveCanvas("fractal.png");
 }
 
-function makepair(x,y,d,col){
-  stroke(c, 100, 100);
-  //fill(c, 100,20)
-  //strokeWeight(random(5));
-  ellipse(x,y,d)
-  if(d > 1 && random(1) <= 0.98){
-    c = (c + random(-15, 15))%361
-    makepair(x +d/2, y, d/2, c)
-    makepair(x -d/2, y, d/2, c)
-    if(random(1) < 1){
-    makepair(x, y + d/2, d/2, c)}
-    else{
-    makepair(x, y - d/2, d/2, c)
-    }
-    //makepair(x, y -d/2, d/2)
+function onecirc(x, y, s, z, d){
+  fill(random(255), random(255), random(255), random(255))
+  //strokeWeight(2/d);
+  ellipse(x, y, s)
+  if(s < 1){
+    center[2] < d ? center = [x, y, d]: false;
+    return 0;
+  }
+  twocirc(x, y, s, z*-1, d+1)
+}
+
+function twocirc(x, y, s, z, d){
+  fill(random(255), random(255), random(255), random(255))
+  if(z > 0){
+    ellipse(x - s/2, y, s);
+    ellipse(x + s/2, y, s);
+    fill(random(255), random(255), random(255), random(255))
+    ellipse(x - 3*s/4, y, s/2);
+    ellipse(x + 3*s/4, y, s/2);
+    onecirc(x - s/4, y, s/2, z, d);
+    onecirc(x + s/4, y, s/2, z, d);
+  }else if(z < 0){
+    ellipse(x, y - s/2, s);
+    ellipse(x, y + s/2, s);
+    fill(random(255), random(255), random(255), random(255))
+    ellipse(x, y - 3*s/4, s/2);
+    ellipse(x, y + 3*s/4, s/2);
+    onecirc(x, y - s/4, s/2, z, d);
+    onecirc(x, y + s/4, s/2, z, d)
   }
 }
